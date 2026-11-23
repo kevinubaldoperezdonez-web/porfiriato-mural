@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Porfiriato — Mural Histórico</title>
+  <style>
+    :root {
+      --rojo: #9a2f24;
+      --vino: #42140f;
+      --crema: #f4ead2;
+      --dorado: #c49a52;
+      --verde: #315947;
+      --tinta: #27201b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--tinta);
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        linear-gradient(rgba(82, 55, 35, .06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(82, 55, 35, .06) 1px, transparent 1px),
+        #e8dcc1;
+      background-size: 22px 22px;
+    }
+
+    .mural {
+      max-width: 1180px;
+      margin: 24px auto;
+      background: var(--crema);
+      border: 14px solid var(--vino);
+      box-shadow: 0 12px 35px rgba(44, 25, 13, .25);
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      min-height: 380px;
+      color: #fff3d3;
+      background: var(--vino);
+    }
+
+    .titulo {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 45px;
+      border-right: 8px double var(--dorado);
+    }
+
+    .titulo .kicker {
+      width: fit-content;
+      padding: 5px 10px;
+      border: 1px solid #dfbc78;
+      color: #dfbc78;
+      letter-spacing: 4px;
+      font-size: .75rem;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 14px 0 6px;
+      font-size: clamp(3.8rem, 8vw, 7.5rem);
+      line-height: .78;
+      letter-spacing: -5px;
+      text-transform: uppercase;
+    }
+
+    .fecha {
+      margin-top: 18px;
+      font-size: 1.25rem;
+      letter-spacing: 8px;
+    }
+
+    .portada {
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .portada img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      filter: sepia(.28) contrast(1.05);
+    }
+
+    .portada figcaption {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      left: 12px;
+      padding: 8px;
+      background: rgba(60, 25, 16, .82);
+      text-align: center;
+      font-size: .78rem;
+    }
+
+    main { padding: 26px; }
+
+    .cabecera-seccion {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 8px 0 22px;
+    }
+
+    .cabecera-seccion::before,
+    .cabecera-seccion::after {
+      content: "";
+      height: 2px;
+      flex: 1;
+      background: var(--dorado);
+    }
+
+    .cabecera-seccion h2 {
+      margin: 0;
+      color: var(--rojo);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    .destacado {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .texto-principal {
+      padding: 24px;
+      background: #fffaf0;
+      border: 1px solid #bda773;
+      box-shadow: 6px 6px 0 #d1bd8e;
+    }
+
+    .texto-principal p {
+      margin: 0;
+      font-size: 1.12rem;
+      line-height: 1.72;
+    }
+
+    .texto-principal p::first-letter {
+      float: left;
+      margin: 2px 8px 0 0;
+      color: var(--rojo);
+      font-size: 4.2rem;
+      line-height: .75;
+    }
+
+    .minucias {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .dato {
+      min-height: 130px;
+      padding: 16px;
+      color: #fff;
+      background: var(--verde);
+    }
+
+    .dato:nth-child(2),
+    .dato:nth-child(3) { background: var(--rojo); }
+
+    .dato strong {
+      display: block;
+      color: #f0ce87;
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+
+    .dato span { font-size: .93rem; }
+
+    .grid-noticias {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+
+    article {
+      background: #fffaf0;
+      border: 1px solid #bea875;
+    }
+
+    article img {
+      width: 100%;
+      height: 210px;
+      display: block;
+      object-fit: cover;
+      filter: sepia(.18) saturate(.9);
+    }
+
+    .contenido { padding: 16px; }
+
+    .contenido h3 {
+      margin: 0 0 8px;
+      color: var(--rojo);
+      font-size: 1.35rem;
+    }
+
+    .contenido p { margin: 0; line-height: 1.55; }
+
+    .amplia { grid-column: span 7; }
+    .normal { grid-column: span 5; }
+
+    .cita {
+      grid-column: 1 / -1;
+      padding: 22px 45px;
+      color: #fff7df;
+      background:
+        linear-gradient(rgba(50, 20, 13, .88), rgba(50, 20, 13, .88)),
+        url("imagenesdeproyectos/porfiriato2.jpeg") center 35%/cover;
+      text-align: center;
+      border: 4px double var(--dorado);
+    }
+
+    .cita blockquote {
+      margin: 0;
+      font-size: clamp(1.25rem, 3vw, 2rem);
+      font-style: italic;
+    }
+
+    .cronologia {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      background: transparent;
+      border: 0;
+    }
+
+    .ano {
+      position: relative;
+      padding: 18px 12px;
+      text-align: center;
+      background: #eadcba;
+      border-right: 1px solid #bda773;
+    }
+
+    .ano:last-child { border-right: 0; }
+
+    .ano strong {
+      display: block;
+      color: var(--rojo);
+      font-size: 1.25rem;
+    }
+
+    .contenido-extra {
+      grid-column: 1 / -1;
+      margin-top: 12px;
+      padding: 18px;
+      background: #fffaf0;
+      border: 1px solid #bea875;
+    }
+
+    .contenido-extra h3 {
+      margin: 0 0 14px;
+      color: var(--rojo);
+      text-align: center;
+      font-size: 1.55rem;
+    }
+
+    .meme-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .meme {
+      margin: 0;
+      padding: 8px;
+      background: #eadcba;
+      border: 2px solid #c3aa72;
+      text-align: center;
+      transform: rotate(-.4deg);
+    }
+
+    .meme:nth-child(2) { transform: rotate(.6deg); }
+
+    .meme img {
+      width: 100%;
+      height: 230px;
+      display: block;
+      object-fit: contain;
+      background: #f8f1df;
+    }
+
+    .meme figcaption {
+      padding: 9px 4px 3px;
+      color: #5f4a31;
+      font-weight: bold;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .video-card {
+      margin: 0;
+      padding: 8px;
+      background: #eadcba;
+      border: 2px solid #c3aa72;
+    }
+
+    .video-card video {
+      width: 100%;
+      max-height: 320px;
+      display: block;
+      background: #201711;
+    }
+
+    .video-card figcaption {
+      padding-top: 8px;
+      text-align: center;
+      color: #5f4a31;
+      font-weight: bold;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 24px;
+      padding: 14px 20px;
+      color: #f4dfae;
+      background: var(--vino);
+      font-size: .82rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 800px) {
+      .mural { margin: 0; border-width: 8px; }
+      header { grid-template-columns: 1fr; }
+      .titulo { min-height: 300px; border-right: 0; border-bottom: 8px double var(--dorado); }
+      .portada { height: 300px; }
+      .destacado, .grid-noticias { grid-template-columns: 1fr; }
+      .amplia, .normal, .cita, .cronologia, .contenido-extra { grid-column: 1 / -1; }
+      .cronologia { grid-template-columns: repeat(2, 1fr); }
+      .ano:last-child { grid-column: 1 / -1; }
+      .meme-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      main { padding: 14px; }
+      .titulo { padding: 28px 22px; }
+      h1 { letter-spacing: -2px; }
+      .minucias, .meme-grid, .video-grid { grid-template-columns: 1fr; }
+      .cronologia { grid-template-columns: 1fr; }
+      .ano:last-child { grid-column: auto; }
+      .meme img { height: 260px; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="mural">
+    <header>
+      <div class="titulo">
+        <div class="kicker">Edición especial · Historia</div>
+        <h1>Porfiriato</h1>
+        <div class="fecha">1876 • 1911</div>
+      </div>
+      <figure class="portada">
+        <img src="imagenesdeproyectos/porfiriato6.jpeg" alt="Retrato histórico relacionado con el Porfiriato">
+        <figcaption>Un gobierno largo que transformó a México</figcaption>
+      </figure>
+    </header>
+
+    <main>
+      <div class="cabecera-seccion"><h2>Una nación en movimiento</h2></div>
+
+      <section class="destacado">
+        <div class="texto-principal">
+          <p>Entre 1876 y 1911, México vivió una profunda transformación. El Estado reforzó su autoridad, se ampliaron las vías férreas y llegaron grandes inversiones extranjeras. Al mismo tiempo, grandes extensiones de tierra quedaron en manos de haciendas y compañías. El Porfiriato fue, por tanto, una época de progreso material para unos pocos y de dificultades económicas para una mayoría.</p>
+        </div>
+
+        <div class="minucias">
+          <div class="dato"><strong>35 años</strong><span>Duró el predominio político de Porfirio Díaz.</span></div>
+          <div class="dato"><strong>19 000 km</strong><span>Aproximadamente se construyeron de vías férreas.</span></div>
+          <div class="dato"><strong>Deuda social</strong><span>Campesinos y obreros fueron los sectores más afectados.</span></div>
+          <div class="dato"><strong>1910</strong><span>Las elecciones motivaron un movimiento político nacional.</span></div>
+        </div>
+      </section>
+
+      <div class="cabecera-seccion"><h2>Reportajes principales</h2></div>
+
+      <section class="grid-noticias">
+        <article class="amplia">
+          <img src="imagenesdeproyectos/porfiriato3.jpeg" alt="Ferrocarril o infraestructura del Porfiriato">
+          <div class="contenido">
+            <h3>Ferrocarriles: conexión y control</h3>
+            <p>Las líneas ferroviarias unieron puertos, capitales, minas y ciudades del interior. Permitieron transportar mercancías y personas con mayor rapidez. Sin embargo, las principales rutas beneficiaron a empresarios y exportadores antes que a las comunidades rurales.</p>
+          </div>
+        </article>
+
+        <article class="normal">
+          <img src="imagenesdeproyectos/porfiriato2.jpeg" alt="Sociedad mexicana durante el Porfiriato">
+          <div class="contenido">
+            <h3>Tierras concentradas</h3>
+            <p>Las leyes de deslinde permitieron reclamar terrenos que no tenían títulos escritos. Muchas comunidades indígenas perdieron sus tierras y fueron obligadas a trabajar en haciendas o empresas.</p>
+          </div>
+        </article>
+
+        <article class="normal">
+          <img src="imagenesdeproyectos/porfiriato5.jpeg" alt="Personajes y escenas históricas del Porfiriato">
+          <div class="contenido">
+            <h3>La prensa vigilada</h3>
+            <p>La prensa favorable recibía apoyo político, mientras los periódicos críticos podían enfrentar censura o cierre. Esta práctica hizo más difícil expresar opiniones contra el gobierno.</p>
+          </div>
+        </article>
+
+        <article class="amplia">
+          <img src="imagenesdeproyectos/porfiriato1.jpeg" alt="Porfirio Díaz durante su gobierno">
+          <div class="contenido">
+            <h3>De héroe militar a presidente reelecto</h3>
+            <p>Porfirio Díaz participó en conflictos militares y llegó a la presidencia en 1876. Con el paso del tiempo concentró el poder en el Ejecutivo, relegó a las cámaras y permitió pocas posibilidades de alternancia política.</p>
+          </div>
+        </article>
+
+        <div class="cita">
+          <blockquote>“La paz porfiriana trajo estabilidad, pero el silencio sobre las injusticias preparó el estallido social.”</blockquote>
+        </div>
+
+        <div class="cronologia" aria-label="Cronología del periodo">
+          <div class="ano"><strong>1876</strong>Díaz llega a la presidencia.</div>
+          <div class="ano"><strong>1884</strong>Reinicia su período presidencial continuo.</div>
+          <div class="ano"><strong>1897</strong>Crece la inversión extranjera en minería e industria.</div>
+          <div class="ano"><strong>1906</strong>Resurge la lucha obrera en Cananea y Río Blanco.</div>
+          <div class="ano"><strong>1911</strong>El tratado de Ciudad Juárez pone fin a su gobierno.</div>
+        </div>
+
+        <div class="contenido-extra">
+          <h3>Momazos históricos</h3>
+          <div class="meme-grid">
+            <figure class="meme">
+              <img src="imagenesdeproyectos/xdddc.png" alt="Momazo histórico guardado">
+              <figcaption>Cuando Porfirio dijo “¡No reelección!”… otra vez</figcaption>
+            </figure>
+            <figure class="meme">
+              <img src="imagenesdeproyectos/mamada1.png" alt="Momazo 1 guardado">
+              <figcaption>Yo estudiando el Porfiriato: 1876… 1911</figcaption>
+            </figure>
+            <figure class="meme">
+              <img src="imagenesdeproyectos/queintensoxd.jpg" alt="Momazo intenso guardado">
+              <figcaption>Cuando la paz porfiriana empezó a llegar a su límite</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="contenido-extra">
+          <h3>Videos guardados</h3>
+          <div class="video-grid">
+            <figure class="video-card">
+              <video controls preload="metadata">
+                <source src="cinememe.mp4" type="video/mp4">
+                Tu navegador no puede reproducir este video.
+              </video>
+              <figcaption>Cinememe · Video guardado</figcaption>
+            </figure>
+            <figure class="video-card">
+              <video controls preload="metadata">
+                <source src="xd/xdxd.mp4" type="video/mp4">
+                Tu navegador no puede reproducir este video.
+              </video>
+              <figcaption>XD · Video guardado</figcaption>
+            </figure>
+            <figure class="video-card">
+              <video controls preload="metadata">
+                <source src="imagenesdeproyectos/cine maik wasosqui.mp4" type="video/mp4">
+                Tu navegador no puede reproducir este video.
+              </video>
+              <figcaption>Cine Maik · Video guardado</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <span>Proyecto escolar · Mural del Porfiriato</span>
+        <span>Historia moderna de México</span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
